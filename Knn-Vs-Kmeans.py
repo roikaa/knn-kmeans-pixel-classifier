@@ -7,7 +7,6 @@ Comparaison classification supervisee et non-suppervisee
 Auteur: M. TAFFAR
 """
 
-# from sklearn.neighbors import NearestNeighbors
 import copy
 import random
 from collections import Counter
@@ -101,6 +100,9 @@ class knn:
         return vote
 
 
+# TODO: implement K-Means
+
+
 def pixels_to_image(classified_pixels, width, height):
     img_array = np.zeros((height, width, 3), dtype=np.uint8)
 
@@ -120,65 +122,64 @@ def calculate_accuracy(original, predicted):
     return (correct / len(original)) * 100
 
 
-def show_comparison(uploaded_img_path, original_img, knn_img, kmeans_img=None):
-    """Display uploaded image, original labels, KNN, and K-Means side by side"""
-    num_images = 4 if kmeans_img is not None else 3
+def show_comparison(uploaded_img_path, original_img, knn_img, knn_accuracy):
+    num_images = 3
     fig, axes = plt.subplots(1, num_images, figsize=(20, 5))
-    
+
     # Load and show uploaded image
     uploaded = Image.open(uploaded_img_path)
     axes[0].imshow(uploaded)
-    axes[0].set_title('Uploaded Image', fontsize=14, fontweight='bold')
-    axes[0].axis('off')
-    
+    axes[0].set_title("Uploaded Image", fontsize=14, fontweight="bold")
+    axes[0].axis("off")
+
     # Show original labels
     axes[1].imshow(original_img)
-    axes[1].set_title('Original Labels', fontsize=14, fontweight='bold')
-    axes[1].axis('off')
-    
-    # Show KNN result
+    axes[1].set_title("Original Labels", fontsize=14, fontweight="bold")
+    axes[1].axis("off")
+
+    # Show KNN result with accuracy
     axes[2].imshow(knn_img)
-    axes[2].set_title('KNN Classification', fontsize=14, fontweight='bold')
-    axes[2].axis('off')
-    
-    # Show K-Means if available
-    if kmeans_img is not None:
-        axes[3].imshow(kmeans_img)
-        axes[3].set_title('K-Means Clustering', fontsize=14, fontweight='bold')
-        axes[3].axis('off')
-    
-    # Add spacing between subplots
-    plt.subplots_adjust(wspace=0.3)  # Horizontal spacing
+    axes[2].set_title(
+        f"KNN Classification\nAccuracy: {knn_accuracy:.2f}%",
+        fontsize=14,
+        fontweight="bold",
+    )
+    axes[2].axis("off")
+
+    # Add overall title with accuracy
+    fig.suptitle(
+        f"Image Classification Comparison - KNN Accuracy: {knn_accuracy:.2f}%",
+        fontsize=16,
+        fontweight="bold",
+        y=0.98,
+    )
+
     plt.tight_layout()
     plt.show()
 
+
 def main():
-    TRAIN_SIZE = 10
-    IMG_PATH = "cool-pfp-1300.png"
+    TRAIN_SIZE = 15
+    IMG_PATH = "Images/cool-pfp-1300.png"
     K_VALUE = 3
-    
+
     # Load image pixels
     original_pixels, width, height = loadimg(IMG_PATH)
-    
-    # Create copies for each algorithm
+
     knn_pixels = copy.deepcopy(original_pixels)
-    
+
     # KNN Classification
     training_set = creat_training_set(original_pixels, TRAIN_SIZE)
     knn_classifier = knn(knn_pixels, training_set, K_VALUE)
     knn_predictions = knn_classifier.predict(knn_pixels)
-    
-    # Update KNN pixels with predictions
-    
+
     # Calculate accuracy
     knn_accuracy = calculate_accuracy(original_pixels, knn_pixels)
     print(f"KNN Accuracy: {knn_accuracy:.2f}%")
-    
-    # Create images for comparison
+
     original_img = pixels_to_image(original_pixels, width, height)
-    knn_img = pixels_to_image(knn_predictions, width, height)  # Use knn_pixels, not knn_predictions
-    
-    # Show comparison (pass IMG_PATH as first argument)
-    show_comparison(IMG_PATH, original_img, knn_img)
+    knn_img = pixels_to_image(knn_predictions, width, height)
+
+    show_comparison(IMG_PATH, original_img, knn_img, knn_accuracy)
 
 main()
