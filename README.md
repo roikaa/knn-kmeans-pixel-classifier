@@ -17,4 +17,6 @@ python classification.py
 ```
 ## Result
 ### K-Nearest Neighbors
+K = 5
+train size: random 15 pixels
 ![resutls of K-Nearest Neighbors](Images/result/Figure_1.png)
