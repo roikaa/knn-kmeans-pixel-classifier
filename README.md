@@ -11,12 +11,31 @@ Supervisor: M. TAFFAR
 ## Overview
 This project implements a K-Nearest Neighbors (KNN) classifier to segment images based on RGB color values. Each pixel is classified into one of three categories: red, green, or blue, based on its dominant color component.
 
-## Usage
-```bash
-python classification.py
-```
-## Result
+## Test Results
 ### K-Nearest Neighbors
 K = 5
 train size: random 15 pixels
 ![resutls of K-Nearest Neighbors](Images/result/Figure_1.png)
+
+## Usage
+### Clone
+```bash
+git clone https://github.com/roikaa/knn-kmeans-pixel-classifier.git 
+```
+```bash
+cd knn-kmeans-pixel-classifier
+```
+### install dependencis
+nix/nixos:
+```bash
+nix-shell
+```
+pip:
+```bash
+pip install numpy pillow matplotlib scikit-learn
+```
+### Run program
+```bash
+python classification.py
+```
+
