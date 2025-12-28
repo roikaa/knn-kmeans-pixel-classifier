@@ -10,6 +10,7 @@ Auteur: M. TAFFAR
 import copy
 import random
 from collections import Counter
+
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
@@ -180,5 +181,6 @@ def main():
     knn_img = pixels_to_image(knn_predictions, width, height)
 
     show_comparison(IMG_PATH, original_img, knn_img, knn_accuracy)
+
 
 main()
