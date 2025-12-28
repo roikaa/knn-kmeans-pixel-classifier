@@ -10,7 +10,6 @@ Auteur: M. TAFFAR
 import copy
 import random
 from collections import Counter
-
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
