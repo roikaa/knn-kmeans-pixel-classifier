@@ -35,10 +35,10 @@ def get_label(r, g, b):
     t = r + g + b
     if t == 0:
         label = None  # r,g,b/0 = error, t=0 is black
-    else: 
-        rp = r / t # R%
-        gp = g / t # G%
-        bp = b / t # B%
+    else:
+        rp = r / t  # R%
+        gp = g / t  # G%
+        bp = b / t  # B%
         if rp > gp and rp > bp:
             label = "red"
         elif gp > rp and gp > bp:
@@ -177,42 +177,44 @@ def calculate_accuracy(original, predicted):
     return (correct / len(original)) * 100
 
 
-def show_comparison(
-    uploaded_img_path, original_img, knn_img, kmeans_img, knn_accuracy, kmeans_accuracy
-):
-    fig, axes = plt.subplots(1, 4, figsize=(24, 6))
+def show_comparison(uploaded_img_path, knn_img, kmeans_img):
+    fig, axes = plt.subplots(1, 3, figsize=(24, 6))
 
     # Uploaded image
     uploaded = Image.open(uploaded_img_path)
     axes[0].imshow(uploaded)
     axes[0].set_title("Uploaded Image", fontsize=14, fontweight="bold")
-    axes[0].axis("off")
-
-    # Original labels
-    axes[1].imshow(original_img)
-    axes[1].set_title("Original Labels", fontsize=14, fontweight="bold")
-    axes[1].axis("off")
 
     # KNN result
-    axes[2].imshow(knn_img)
+    axes[1].imshow(knn_img)
+    axes[1].set_title(
+        "K-NN",
+        fontsize=14,
+        fontweight="bold",
+    )
+    axes[1].axis("off")
+    # axes[1].yaxis.set_visible(False)
+
+    # K-Means result
+    axes[2].imshow(kmeans_img)
     axes[2].set_title(
-        f"KNN Classification\nAccuracy: {knn_accuracy:.2f}%",
+        "K-Means",
         fontsize=14,
         fontweight="bold",
     )
     axes[2].axis("off")
-
-    # K-Means result
-    axes[3].imshow(kmeans_img)
-    axes[3].set_title(
-        f"K-Means Classification\nAccuracy: {kmeans_accuracy:.2f}%",
-        fontsize=14,
-        fontweight="bold",
-    )
-    axes[3].axis("off")
+    # axes[2].yaxis.set_visible(False)
+    # # K-Means result
+    #     axes[3].imshow(img)
+    #     axes[3].set_title(
+    #         "img",
+    #         fontsize=14,
+    #         fontweight="bold",
+    #     )
+    #     axes[3].axis("off")
 
     fig.suptitle(
-        f"Image Classification Comparison - KNN: {knn_accuracy:.2f}% | K-Means: {kmeans_accuracy:.2f}%",
+        "Image Classification Comparison",
         fontsize=16,
         fontweight="bold",
         y=0.98,
@@ -222,10 +224,11 @@ def show_comparison(
 
 
 def main():
-    TRAIN_SIZE = 15
-    IMG_PATH = "Images/cool-pfp-1300.png"
+    TRAIN_SIZE = 25
+    IMG_PATH = "Images/image_6.jpg"
     K_MEANS = 3
     K_NN = 5
+    ITERATIONS = 10
 
     # Load image pixels
     original_pixels, width, height = loadimg(IMG_PATH)
@@ -239,21 +242,20 @@ def main():
     knn_predictions = knn_classifier.predict(knn_pixels)
 
     # K-Means Classification
-    kmeans_classifier = k_means(k=K_MEANS)
-    kmeans_classifier.fit(original_pixels, max_iterations=10)
+    kmeans_classifier = k_means(K_MEANS)
+    kmeans_classifier.fit(original_pixels, ITERATIONS)
     kmeans_predictions = kmeans_classifier.predict(kmeans_pixels)
 
-    # Calculate accuracy
+    knn_img = pixels_to_image(knn_predictions, width, height)
+    kmeans_img = pixels_to_image(kmeans_predictions, width, height)
+    # img = pixels_to_image(original_pixels, width, height)
+
     knn_accuracy = calculate_accuracy(original_pixels, knn_predictions)
     kmeans_accuracy = calculate_accuracy(original_pixels, kmeans_predictions)
 
-    original_img = pixels_to_image(original_pixels, width, height)
-    knn_img = pixels_to_image(knn_predictions, width, height)
-    kmeans_img = pixels_to_image(kmeans_predictions, width, height)
-
-    show_comparison(
-        IMG_PATH, original_img, knn_img, kmeans_img, knn_accuracy, kmeans_accuracy
-    )
+    print(f"K-NN Accuracy: {knn_accuracy:.2f}%")
+    print(f"K-Means Accuracy: {kmeans_accuracy:.2f}%")
+    show_comparison(IMG_PATH, knn_img, kmeans_img)
 
 
 main()
