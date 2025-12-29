@@ -12,10 +12,10 @@ Supervisor: M. TAFFAR
 This project implements a K-Nearest Neighbors (KNN) classifier to segment images based on RGB color values. Each pixel is classified into one of three categories: red, green, or blue, based on its dominant color component.
 
 ## Test Results
-### K-Nearest Neighbors
-K = 5
-train size: random 15 pixels
-![resutls of K-Nearest Neighbors](Images/result/Figure_1.png)
+![resutls](Images/result/Figure_1.png)
+
+![resutls](Images/result/Figure_2.png)
+![resutls](Images/result/Figure_3.png)
 
 ## Usage
 ### Clone

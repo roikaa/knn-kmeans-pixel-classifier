@@ -114,12 +114,12 @@ class k_means:
 
     def fit(self, pixels, max_iterations=10):
         # Step 1: select random centroids
-        self.centroids = creat_training_set(pixels, self.k)
+        self.centroids = random.sample(pixels, self.k)
 
         # Step 2: calculate the distance centroids and each point
         for iteration in range(max_iterations):
-            # clusters = [[] for _ in range(self.k)]
-            clusters = []
+            clusters = [[] for _ in range(self.k)]
+            # clusters = []
             for pixel in pixels:
                 distances = [
                     distance_manhattan(pixel, centroid) for centroid in self.centroids
@@ -223,7 +223,7 @@ def show_comparison(
 
 def main():
     TRAIN_SIZE = 15
-    IMG_PATH = "Images/nature.jpg"
+    IMG_PATH = "Images/cool-pfp-1300.png"
     K_MEANS = 3
     K_NN = 5
 
