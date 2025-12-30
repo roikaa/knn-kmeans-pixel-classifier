@@ -6,7 +6,7 @@ Comparaison classification supervisee et non-suppervisee
 
 Auteur: M. TAFFAR
 """
-
+from mpl_toolkits.mplot3d import Axes3D
 import copy
 import random
 from collections import Counter
@@ -131,7 +131,7 @@ class k_means:
             new_centroids = []
             for cluster in clusters:
                 if len(cluster) > 0:
-                    avg_r = sum(pixel.r for pixle in cluster) / len(cluster)
+                    avg_r = sum(pixle.r for pixle in cluster) / len(cluster)
                     avg_g = sum(pixle.g for pixle in cluster) / len(cluster)
                     avg_b = sum(pixle.b for pixle in cluster) / len(cluster)
                     label = get_label(int(avg_r), int(avg_g), int(avg_b))
@@ -225,7 +225,7 @@ def show_comparison(uploaded_img_path, knn_img, kmeans_img):
 
 def main():
     TRAIN_SIZE = 25
-    IMG_PATH = "Images/image_6.jpg"
+    IMG_PATH = "Images/image_2.jpg"
     K_MEANS = 3
     K_NN = 5
     ITERATIONS = 10
@@ -245,6 +245,7 @@ def main():
     kmeans_classifier = k_means(K_MEANS)
     kmeans_classifier.fit(original_pixels, ITERATIONS)
     kmeans_predictions = kmeans_classifier.predict(kmeans_pixels)
+    print(kmeans_classifier.centroids)
 
     knn_img = pixels_to_image(knn_predictions, width, height)
     kmeans_img = pixels_to_image(kmeans_predictions, width, height)
@@ -256,6 +257,5 @@ def main():
     print(f"K-NN Accuracy: {knn_accuracy:.2f}%")
     print(f"K-Means Accuracy: {kmeans_accuracy:.2f}%")
     show_comparison(IMG_PATH, knn_img, kmeans_img)
-
 
 main()
