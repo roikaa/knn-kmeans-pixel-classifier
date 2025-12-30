@@ -225,7 +225,7 @@ def show_comparison(uploaded_img_path, knn_img, kmeans_img):
 
 def main():
     TRAIN_SIZE = 25
-    IMG_PATH = "Images/image_2.jpg"
+    IMG_PATH = "Images/image_5.jpg"
     K_MEANS = 3
     K_NN = 5
     ITERATIONS = 10
