@@ -37,6 +37,6 @@ pip install numpy pillow matplotlib scikit-learn
 ```
 ### Run program
 ```bash
-python classification.py
+python Knn-Vs-Kmeans.py
 ```
 
