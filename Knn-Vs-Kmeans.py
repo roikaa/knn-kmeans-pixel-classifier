@@ -6,7 +6,7 @@ Comparaison classification supervisee et non-suppervisee
 
 Auteur: M. TAFFAR
 """
-from mpl_toolkits.mplot3d import Axes3D
+
 import copy
 import random
 from collections import Counter
@@ -23,7 +23,7 @@ class structure_pixel:
         self.r = r
         self.g = g
         self.b = b
-        self.label = label  # [Red, Green, Blue]/{Black, Gray, White}
+        self.label = label  # [Red, Green, Blue]
 
     def __repr__(self):
         return (
@@ -193,7 +193,6 @@ def show_comparison(uploaded_img_path, knn_img, kmeans_img):
         fontweight="bold",
     )
     axes[1].axis("off")
-    # axes[1].yaxis.set_visible(False)
 
     # K-Means result
     axes[2].imshow(kmeans_img)
@@ -203,15 +202,6 @@ def show_comparison(uploaded_img_path, knn_img, kmeans_img):
         fontweight="bold",
     )
     axes[2].axis("off")
-    # axes[2].yaxis.set_visible(False)
-    # # K-Means result
-    #     axes[3].imshow(img)
-    #     axes[3].set_title(
-    #         "img",
-    #         fontsize=14,
-    #         fontweight="bold",
-    #     )
-    #     axes[3].axis("off")
 
     fig.suptitle(
         "Image Classification Comparison",
@@ -225,7 +215,7 @@ def show_comparison(uploaded_img_path, knn_img, kmeans_img):
 
 def main():
     TRAIN_SIZE = 25
-    IMG_PATH = "Images/image_5.jpg"
+    IMG_PATH = "Images/image_1.jpg"
     K_MEANS = 3
     K_NN = 5
     ITERATIONS = 10
@@ -249,7 +239,6 @@ def main():
 
     knn_img = pixels_to_image(knn_predictions, width, height)
     kmeans_img = pixels_to_image(kmeans_predictions, width, height)
-    # img = pixels_to_image(original_pixels, width, height)
 
     knn_accuracy = calculate_accuracy(original_pixels, knn_predictions)
     kmeans_accuracy = calculate_accuracy(original_pixels, kmeans_predictions)
@@ -257,5 +246,6 @@ def main():
     print(f"K-NN Accuracy: {knn_accuracy:.2f}%")
     print(f"K-Means Accuracy: {kmeans_accuracy:.2f}%")
     show_comparison(IMG_PATH, knn_img, kmeans_img)
+
 
 main()
